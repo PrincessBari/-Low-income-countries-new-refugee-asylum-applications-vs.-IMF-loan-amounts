@@ -1,7 +1,9 @@
 # I created this R code for a data analysis project as a part of my master's program. My goal was to
-# carry out a correlation analysis between "low-income" countries' combined new government and UNHCR
-# refugee asylum applications filed in the years 2011-2013 in relation to their IMF loan amounts for 
-# those years. The numbers in the corresponding csv file named "Low income countries info.csv" were taken 
+# explore the correlations between "low-income" countries' combined new government and UNHCR
+# refugee asylum applications filed in the years 2011-2013 and their IMF loan amounts for 
+# those years. 
+
+# The numbers in the corresponding csv file named "Low income countries info.csv" were taken 
 # from https://www.unhcr.org/refugee-statistics/download/?url=UVaZC9. For each year, I combined the "N"
 # refugee asylum "application type" (which stands for "New") and from the "authority" of "G" (for government) 
 # and "U" (for UNHCR). (The explanations of these acronyms can be found here: 
