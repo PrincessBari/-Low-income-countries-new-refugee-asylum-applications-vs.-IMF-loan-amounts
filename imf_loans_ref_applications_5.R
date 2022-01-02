@@ -1,10 +1,21 @@
-getwd()
+# I created this R code for a data analysis project as a part of my master's program. My goal was to
+# carry out a correlation analysis between "low-income" countries' combined new government and UNHCR
+# refugee asylum applications filed in the years 2011-2013 in relation to their IMF loan amounts for 
+# those years. The numbers in the corresponding csv file named "Low income countries info.csv" were taken 
+# from https://www.unhcr.org/refugee-statistics/download/?url=UVaZC9. For each year, I combined the "N"
+# refugee asylum "application type" (which stands for "New") and from the "authority" of "G" (for government) 
+# and "U" (for UNHCR). (The explanations of these acronyms can be found here: 
+# https://www.unhcr.org/refugee-statistics/methodology/data-content/.) I also gathered GDP info from
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?end=2014&start=2011 and figured out which countries
+# were classified as "low-income" by visiting 
+# https://datahelpdesk.worldbank.org/knowledgebase/articles/906519-world-bank-country-and-lending-groups
 
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
 library(corrplot)
 library(PerformanceAnalytics)
+library(ggpubr)
 
 refs1 <- read.csv("/Users/sarakim/Documents/Data Analysis IMF Loans project/Low income countries info.csv",header=TRUE,colClasses="character")
 cols <- 2:13
@@ -808,7 +819,20 @@ nameplot3 <- ggplot(refs1_no_outliers_2011, aes(y = X2011_ref_apps, x = X2011_im
 
 nameplot3 + geom_text(aes(label = refs1_no_outliers_2011$X), check_overlap = TRUE) 
 
-# If we wanted to build a linear model based on this:
+# the same visualization with the linear regression model equation and associated 
+# r-squared value presented on the graph:
+nameplot3 + geom_text(aes(label = refs1_no_outliers_2011$X), check_overlap = TRUE) +
+  stat_regline_equation(label.x = 450, label.y = 6000, size = 6) +
+  stat_cor(aes(label=..rr.label..), label.x = 450, label.y = 5700, size = 6)
+
+# Note that the regression model equation that appears on the above visualization is
+# "y = 1900 - 0.41x" rather than "y = 1898.75 - 0.4126x" because the function 
+# stat_regline_equation() rounds to two significant digits, which is hard-coded into the
+# function. However, according to 
+# https://stackoverflow.com/questions/66177005/im-using-stat-regline-equation-with-ggscatter-is-there-a-way-to-specify-the-si,
+# "you can enter trace(ggpubr:::.stat_lm, edit = TRUE) into the console and modify the 
+# function's code in the pop-up window. The lines you want to change are lines 13-14."
+# In any case, if we wanted to see how the linear model from line 825 was built:
 lm_2011_ref_imf_no_outliers <- lm(refs1_no_outliers_2011$X2011_ref_apps ~ refs1_no_outliers_2011$X2011_imf_loan_millions, 
                       data = refs1_no_outliers_2011)
 # remember: y axis goes first, then ~ x axis
