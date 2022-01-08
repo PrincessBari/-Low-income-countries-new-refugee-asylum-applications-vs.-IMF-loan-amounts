@@ -849,13 +849,92 @@ lm_2011_ref_imf_no_outliers
 
 #--------
 
+nameplot4 <- ggplot(refs1_no_outliers_2012, aes(y = X2012_ref_apps, x = X2012_imf_loan_millions)) + 
+  #geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  labs(title = "Low-Income Countries' New Refugee Applications vs. IMF Loans in 2012 Without Outliers",
+       x = "IMF Loans in Millions of US Dollars", 
+       y = "New Government and UNHCR Refugee Applications")
+
+nameplot4 + geom_text(aes(label = refs1_no_outliers_2012$X), check_overlap = TRUE) 
+
+# the same visualization with the linear regression model equation and associated 
+# r squared value presented on the graph:
+nameplot4 + geom_text(aes(label = refs1_no_outliers_2012$X), check_overlap = TRUE) +
+  stat_regline_equation(label.x = 450, label.y = 4300, size = 6) +
+  stat_cor(aes(label=..rr.label..), label.x = 450, label.y = 4100, size = 6)
+
+??stat_regline_equation
+
+
+# Note that the regression model equation that appears on the above visualization is
+# "y = 1200 + 1.1x" rather than "y = 1165.733 + 1.069x" because the function 
+# stat_regline_equation() rounds to two significant digits, which is hard-coded into the
+# function. However, according to 
+# https://stackoverflow.com/questions/66177005/im-using-stat-regline-equation-with-ggscatter-is-there-a-way-to-specify-the-si,
+# "you can enter trace(ggpubr:::.stat_lm, edit = TRUE) into the console and modify the 
+# function's code in the pop-up window. The lines you want to change are lines 13-14."
+# In any case, if we wanted to see how the linear model from line 825 was built:
+lm_2012_ref_imf_no_outliers <- lm(refs1_no_outliers_2012$X2012_ref_apps ~ refs1_no_outliers_2012$X2012_imf_loan_millions, 
+                                  data = refs1_no_outliers_2012)
+# remember: y axis goes first, then ~ x axis
+lm_2012_ref_imf_no_outliers
+# Coefficients:
+# (Intercept)  refs1_no_outliers_2012$X2012_imf_loan_millions  
+# 1165.733                                           1.069  
+
+# This means that the formula for 2011 is 
+# ***Refugee Applications = 1165.733 + (1.069 * IMF loan in millions of US dollars) 
+# This is the slope and intercept, of the 'm' and 'b' in the formula y = b + mx
+
+#----
+
+nameplot5 <- ggplot(refs1_no_outliers_2013, aes(y = X2013_ref_apps, x = X2013_imf_loan_millions)) + 
+  #geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  labs(title = "Low-Income Countries' New Refugee Applications vs. IMF Loans in 2013 Without Outliers",
+       x = "IMF Loans in Millions of US Dollars", 
+       y = "New Government and UNHCR Refugee Applications")
+
+nameplot5 + geom_text(aes(label = refs1_no_outliers_2013$X), check_overlap = TRUE) 
+
+# the same visualization with the linear regression model equation and associated 
+# r squared value presented on the graph:
+nameplot5 + geom_text(aes(label = refs1_no_outliers_2013$X), check_overlap = TRUE) +
+  stat_regline_equation(label.x = 350, label.y = 8200, size = 6) +
+  stat_cor(aes(label=..rr.label..), label.x = 350, label.y = 7800, size = 6)
+
+??stat_regline_equation
+
+
+# Note that the regression model equation that appears on the above visualization is
+# "y = -460 + 12x" rather than "y = -456.03 + 12.49x" because the function 
+# stat_regline_equation() rounds to two significant digits, which is hard-coded into the
+# function. However, according to 
+# https://stackoverflow.com/questions/66177005/im-using-stat-regline-equation-with-ggscatter-is-there-a-way-to-specify-the-si,
+# "you can enter trace(ggpubr:::.stat_lm, edit = TRUE) into the console and modify the 
+# function's code in the pop-up window. The lines you want to change are lines 13-14."
+# In any case, if we wanted to see how the linear model from line 825 was built:
+lm_2013_ref_imf_no_outliers <- lm(refs1_no_outliers_2013$X2013_ref_apps ~ refs1_no_outliers_2013$X2013_imf_loan_millions, 
+                                  data = refs1_no_outliers_2013)
+# remember: y axis goes first, then ~ x axis
+lm_2013_ref_imf_no_outliers
+# Coefficients:
+# (Intercept)  refs1_no_outliers_2013$X2013_imf_loan_millions  
+# -456.03                                           12.49  
+
+# This means that the formula for 2011 is 
+# ***Refugee Applications = -456.03 + (12.49 * IMF loan in millions of US dollars) 
+# This is the slope and intercept, of the 'm' and 'b' in the formula y = b + mx
+
+#---------
+
 ??ggqqplot
 ggpubr::ggqqplot(refs1_no_outliers_2011$X2011_ref_apps, ylab = "2011 Refugee Applications without Outliers")
 ggpubr::ggqqplot(refs1_imf_mil$X2011_ref_apps, ylab = "2011 Refugee Applications")
 # Visual inspection of the data normality using Q-Q plots (quantile-quantile plots)
 # Q-Q plot draws the correlation between a given sample and the normal distribution
 # from http://www.sthda.com/english/wiki/correlation-test-between-two-variables-in-r
-
 
 -------- # Other ggplot ideas 
   
