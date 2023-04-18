@@ -19,7 +19,7 @@ library(corrplot)
 library(PerformanceAnalytics)
 library(ggpubr)
 
-refs1 <- read.csv("/Users/sarakim/Documents/Data Analysis IMF Loans project/Low income countries info.csv",header=TRUE,colClasses="character")
+refs1 <- read.csv("[filepath]/file.csv",header=TRUE,colClasses="character")
 cols <- 2:13
 refs1[,cols] <- lapply(refs1[,cols],function(refs1){as.numeric(gsub(",", "", refs1))})
 # code from https://intellipaat.com/community/13744/how-to-read-data-when-some-numbers-contain-commas-as-thousand-separator
